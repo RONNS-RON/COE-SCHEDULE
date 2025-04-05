@@ -1,11 +1,11 @@
-import { useParams } from "react-router-dom";
+import Header from "../Components/Header.tsx";
 
 const dashboard = () => {
-  const { role } = useParams<{ role: string }>();
   return (
     <div>
-      <h1>Welcome to the {role} Dashboard!</h1>
-      <p>You are successfully logged in as a {role}.</p>
+      <Header />
+      <h1>Welcome to the Dashboard!</h1>
+      <p>You are successfully logged in as a.</p>
     </div>
   );
 };
