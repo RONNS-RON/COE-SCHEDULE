@@ -7,20 +7,31 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const TEMP_USERNAME = "clyde@email.com";
-  const TEMP_PASSWORD = "123";
-
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // Basic validation check for temporary username and password
-    if (email === TEMP_USERNAME && password === TEMP_PASSWORD) {
-      setError(""); // Clear error if credentials are correct
-      navigate("/welcome"); // Redirect to the welcome page
-    } else {
-      setError("Invalid username or password.");
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setError("");
+        navigate("/welcome"); // success!
+      } else {
+        setError(data.message); // show error from server
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again later.");
+      console.error(err);
     }
   };
 
